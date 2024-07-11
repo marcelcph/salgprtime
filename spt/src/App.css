@@ -10,19 +10,19 @@ body {
 }
 
 .container {
-  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
 }
 
 h1 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  font-size: 32px;
+  margin-bottom: 30px;
+  padding-bottom: 10px;
   text-align: center;
+  border-bottom: #333 solid 1px;
 }
 
 table {
@@ -38,7 +38,7 @@ th, td {
 }
 
 th {
-  background-color: #007bff;
+  background-color: #d46810;
   color: #fff;
 }
 
@@ -49,8 +49,24 @@ input[type="text"] {
   margin: 5px 0;
   box-sizing: border-box;
   border: 1px solid #ddd;
-  color: black ;
+  color: black;
   border-radius: 4px;
+}
+
+input[type="number"] {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  color: black;
+  border-radius: 4px;
+}
+
+.name-input,
+.hours-input {
+  background-color: #e0e0e0;
 }
 
 button {
@@ -61,12 +77,13 @@ button {
   border: none;
   border-radius: 4px;
   color: #fff;
-  background-color: #007bff;
+  background-color: #d46810;
   transition: background-color 0.3s;
 }
 
+
 button:hover {
-  background-color: #0056b3;
+  background-color: #974c0f;
 }
 
 button:disabled {
@@ -86,4 +103,89 @@ button:disabled {
 
 .message.error {
   color: red;
+}
+
+.radio-buttons {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+
+.radio-buttons label {
+  margin-right: 20px;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .container {
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+  }
+
+  th, td {
+    padding: 8px;
+    padding-bottom: 0px !important;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  .radio-buttons {
+    font-size: 1.2em;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead tr {
+    display: none;
+  }
+
+  tbody tr {
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  tbody td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    box-sizing: border-box;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: calc(50% - 20px);
+    padding-left: 10px;
+    font-weight: bold;
+    white-space: nowrap;
+    box-sizing: border-box;
+  }
+
+  .input-table, .results-table {
+    margin-bottom: 0;
+  }
+
+  /* Specific adjustments to remove left margin */
+  .input-table tbody td,
+  .results-table tbody td {
+    padding-left: 10px;
+  }
 }
