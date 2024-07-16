@@ -85,9 +85,12 @@ function App() {
         name: row.name || "0",
         hours: row.hours || "0",
         sales: salesWithDefault,
+        totalSales: sales,
         averageSales
       };
     });
+
+    newResults.sort((a, b) => b.totalSales - a.totalSales);
 
     setResults(newResults);
     setTotalHours(totalHours);
@@ -231,8 +234,8 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
       <table className="input-table">
         <thead>
           <tr>
-            <th>Navn</th>
-            <th>Timer</th>
+            <th >Navn</th>
+            <th >Timer</th>
             <th>Fast-EL</th>
             <th>Time-EL</th>
             <th>Fast-Spar400</th>
@@ -246,7 +249,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
         <tbody>
           {rows.map((row, index) => (
             <tr key={index}>
-              <td>
+              <td className="highlight">
                 <input
                   type="text"
                   className="name-input"
@@ -255,7 +258,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
                   placeholder="Navn"
                 />
               </td>
-              <td>
+              <td className="highlight">
                 <input
                   type="number"
                   className="hours-input"

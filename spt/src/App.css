@@ -116,14 +116,21 @@ button:disabled {
   margin-right: 20px;
 }
 
+.highlight {
+  background-color: #aaaaaa; /* Lys grå baggrundsfarve */
+}
+
+
 /* Responsive styling */
 @media (max-width: 768px) {
   body {
     padding: 10px;
+    width: 100%;
   }
 
   .container {
     padding: 15px;
+    width: 100%;
   }
 
   h1 {
