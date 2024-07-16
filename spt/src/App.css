@@ -111,9 +111,33 @@ button:disabled {
   font-size: 1.5em;
 }
 
-
 .radio-buttons label {
   margin-right: 20px;
+  display: inline-block;
+}
+
+.radio-buttons input[type="radio"] {
+  display: none; /* Hide the actual radio input */
+}
+
+.radio-buttons label {
+  cursor: pointer;
+  padding: 10px 20px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.radio-buttons label:hover {
+  background-color: #ddd;
+}
+
+.radio-buttons input[type="radio"]:checked + label {
+  background-color: #d46810;
+  color: #fff;
+  border-color: #d46810;
 }
 
 .highlight {

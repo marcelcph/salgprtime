@@ -213,24 +213,25 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
     <div className="container">
       <h1>Salgstal - CM Relation</h1>
       <div className="radio-buttons">
-        <h2>Vælg kontor:</h2>
-        <input
-          type="radio"
-          id="kobenhavn"
-          value="København"
-          checked={office === "København"}
-          onChange={(e) => setOffice(e.target.value)}
-        />
-        <label htmlFor="kobenhavn">København</label>
-        <input
-          type="radio"
-          id="glostrup"
-          value="Glostrup"
-          checked={office === "Glostrup"}
-          onChange={(e) => setOffice(e.target.value)}
-        />
-        <label htmlFor="glostrup">Glostrup</label>
-      </div>
+  <h2>Vælg kontor:</h2>
+  <input
+    type="radio"
+    id="kobenhavn"
+    value="København"
+    checked={office === "København"}
+    onChange={(e) => setOffice(e.target.value)}
+  />
+  <label htmlFor="kobenhavn">København</label>
+  <input
+    type="radio"
+    id="glostrup"
+    value="Glostrup"
+    checked={office === "Glostrup"}
+    onChange={(e) => setOffice(e.target.value)}
+  />
+  <label htmlFor="glostrup">Glostrup</label>
+</div>
+
       <table className="input-table">
         <thead>
           <tr>
