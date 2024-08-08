@@ -17,6 +17,28 @@ body {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.goal-input-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.goal-input {
+  display: flex;
+  align-items: center;
+}
+
+.goal-input input[type="text"] {
+  margin: 0 10px;
+}
+
+.goal-input span {
+  margin: 0 5px;
+}
+
+
+
+
 h1 {
   font-size: 32px;
   margin-bottom: 30px;
@@ -43,6 +65,17 @@ th {
 }
 
 input[type="text"] {
+  width: 100%;
+  background-color: #f0f0f0;
+  padding: 10px;
+  margin: 5px 0;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  color: black;
+  border-radius: 4px;
+}
+
+select{
   width: 100%;
   background-color: #f0f0f0;
   padding: 10px;

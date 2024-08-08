@@ -16,7 +16,8 @@ function App() {
         elSpar: "",
         gasSpar: "",
         gas: ""
-      }
+      },
+      status: "Ingen"
     }
   ]);
   const [results, setResults] = useState([]);
@@ -27,6 +28,8 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [office, setOffice] = useState("Glostrup");
+  const [weekGoal, setWeekGoal] = useState("");
+  const [goal, setGoal] = useState("");
 
   const handleAddRow = () => {
     setRows([
@@ -42,7 +45,8 @@ function App() {
           elSpar: "",
           gasSpar: "",
           gas: ""
-        }
+        },
+        status: "Ingen"
       }
     ]);
   };
@@ -58,6 +62,15 @@ function App() {
       newRows[index].sales[field] = value;
     } else {
       newRows[index][field] = value;
+    }
+    setRows(newRows);
+  };
+
+  const handleStatusChange = (index, value) => {
+    const newRows = [...rows];
+    newRows[index].status = value;
+    if (value === "Syg" || value === "Udeblevet") {
+      newRows[index].hours = "0";
     }
     setRows(newRows);
   };
@@ -86,7 +99,8 @@ function App() {
         hours: row.hours || "0",
         sales: salesWithDefault,
         totalSales: sales,
-        averageSales
+        averageSales,
+        status: row.status
       };
     });
 
@@ -103,6 +117,7 @@ function App() {
       <table style="border-collapse: collapse; width: 100%;">
         <tr>
           <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Navn</th>
+          <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Syg/Udeblevet</th>
           <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Salg</th>
           <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Timer</th>
           <th style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Gennemsnitlige Salg pr. Time</th>
@@ -112,6 +127,7 @@ function App() {
             (result) => `
               <tr>
                 <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">${result.name}</td>
+                <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">${result.status}</td>
                 <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">
                   ${Object.values(result.sales).join(" / ")}
                 </td>
@@ -123,6 +139,7 @@ function App() {
           .join("")}
         <tr>
           <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><strong>Total</strong></td>
+          <td></td>
           <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><strong>${totalSales}</strong></td>
           <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><strong>${totalHours}</strong></td>
           <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><strong>${averageSales}</strong></td>
@@ -152,18 +169,38 @@ function App() {
 
     const totalSales = Object.values(totals).reduce((sum, sale) => sum + sale, 0);
 
+    const sortedResults = [...results].sort((a, b) => {
+      if (a.status === "Ingen" && b.status !== "Ingen") return -1;
+      if (a.status !== "Ingen" && b.status === "Ingen") return 1;
+      if (a.status === "Syg" && b.status !== "Syg") return -1;
+      if (a.status !== "Syg" && b.status === "Syg") return 1;
+      return 0;
+    });
+
+    const resultsText = sortedResults
+      .map((result) => {
+        const salesValues = Object.values(result.sales).join("/");
+        if (result.status === "Syg" && salesValues === "0/0/0/0/0/0/0") {
+          return `${result.name}: Syg`;
+        } else if (result.status === "Syg") {
+          return `${result.name} (Syg): ${salesValues}`;
+        } else if (result.status === "Udeblevet") {
+          return `${result.name}: Udeblevet`;
+        } else {
+          return `${result.name}: ${salesValues}`;
+        }
+      })
+      .join("\n");
+
     return `**Status ${office} d. ${new Date().toLocaleDateString('da-DK')}**
 
 Fast-EL/Time-EL/Fast-Spar400/Time-Spar400/EL-Spar/Gas-Spar/Gas:
 
-${results
-      .map(
-        (result) =>
-          `${result.name}: ${Object.values(result.sales).join("/")}`
-      )
-      .join("\n")}
-        
+${resultsText}
+
 I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
+
+Ugemål: ${weekGoal}/${goal}
     `;
   };
 
@@ -213,30 +250,30 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
     <div className="container">
       <h1>Salgstal - CM Relation</h1>
       <div className="radio-buttons">
-  <h2>Vælg kontor:</h2>
-  <input
-    type="radio"
-    id="kobenhavn"
-    value="København"
-    checked={office === "København"}
-    onChange={(e) => setOffice(e.target.value)}
-  />
-  <label htmlFor="kobenhavn">København</label>
-  <input
-    type="radio"
-    id="glostrup"
-    value="Glostrup"
-    checked={office === "Glostrup"}
-    onChange={(e) => setOffice(e.target.value)}
-  />
-  <label htmlFor="glostrup">Glostrup</label>
-</div>
+        <h2>Vælg kontor:</h2>
+        <input
+          type="radio"
+          id="kobenhavn"
+          value="København"
+          checked={office === "København"}
+          onChange={(e) => setOffice(e.target.value)}
+        />
+        <label htmlFor="kobenhavn">København</label>
+        <input
+          type="radio"
+          id="glostrup"
+          value="Glostrup"
+          checked={office === "Glostrup"}
+          onChange={(e) => setOffice(e.target.value)}
+        />
+        <label htmlFor="glostrup">Glostrup</label>
+      </div>
 
       <table className="input-table">
         <thead>
           <tr>
-            <th >Navn</th>
-            <th >Timer</th>
+            <th>Navn</th>
+            <th>Timer</th>
             <th>Fast-EL</th>
             <th>Time-EL</th>
             <th>Fast-Spar400</th>
@@ -244,6 +281,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
             <th>EL-spar</th>
             <th>Gas-spar</th>
             <th>Gas</th>
+            <th>Syg/Udeblevet</th>
             <th>Handling</th>
           </tr>
         </thead>
@@ -266,6 +304,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
                   value={row.hours}
                   onChange={(e) => handleChange(index, "hours", e.target.value)}
                   placeholder="Timer"
+                  disabled={row.status !== "Ingen"}
                 />
               </td>
               <td>
@@ -330,6 +369,16 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
                   placeholder="Gas"
                 />
               </td>
+              <td className="highlight">
+                <select
+                  value={row.status}
+                  onChange={(e) => handleStatusChange(index, e.target.value)}
+                >
+                  <option value="Ingen"></option>
+                  <option value="Syg">Syg</option>
+                  <option value="Udeblevet">Udeblevet</option>
+                </select>
+              </td>
               <td>
                 <button onClick={() => handleDeleteRow(index)}>Slet</button>
               </td>
@@ -338,6 +387,25 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
         </tbody>
       </table>
       <button onClick={handleAddRow}>Tilføj række</button>
+      <h2>Ugemål:</h2>
+
+      <div className="goal-input-container">
+        <div className="goal-input">
+          <input
+            type="text"
+            value={weekGoal}
+            onChange={(e) => setWeekGoal(e.target.value)}
+            placeholder="Salg på ugen"
+          />
+          <span>/</span>
+          <input
+            type="text"
+            value={goal}
+            onChange={(e) => setGoal(e.target.value)}
+            placeholder="Ugemål"
+          />
+        </div>
+      </div>
       <br /><br />
       <button className="sendmail" onClick={handleCalculate}>Få salgstal</button>
 
@@ -347,6 +415,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
             <thead>
               <tr>
                 <th>Navn</th>
+                <th>Syg/Udeblevet</th>
                 <th>Salg</th>
                 <th>Timer</th>
                 <th>Gennemsnitlige Salg pr. Time</th>
@@ -356,6 +425,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
               {results.map((result, index) => (
                 <tr key={index}>
                   <td>{result.name}</td>
+                  <td>{result.status}</td>
                   <td>{Object.values(result.sales).join(" / ")}</td>
                   <td>{result.hours}</td>
                   <td>{result.averageSales}</td>
@@ -363,6 +433,7 @@ I alt: ${Object.values(totals).join("/")} = ${totalSales} stk.
               ))}
               <tr>
                 <td><strong>Total</strong></td>
+                <td></td>
                 <td><strong>{totalSales}</strong></td>
                 <td><strong>{totalHours}</strong></td>
                 <td><strong>{averageSales}</strong></td>
