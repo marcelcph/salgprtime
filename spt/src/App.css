@@ -138,6 +138,38 @@ button:disabled {
   color: red;
 }
 
+.spg {
+  display: flex;
+  flex-direction: column; /* Ændrer retningen til en lodret kolonne */
+  justify-content: center;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.spg .question {
+  width: 100%; /* Får spørgsmålene til at fylde hele bredden af .spg */
+  margin-bottom: 5px; /* Giver lidt luft mellem spørgsmålene */
+}
+
+.spg label {
+  font-weight: bold;
+  display: block; /* Sørger for at label vises over textarea */
+}
+
+textarea {
+  width: 100%; /* Gør textarea til at fylde hele bredden af sin container */
+  height: 38px; /* Fast højde for textarea */
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  color: black;
+  border-radius: 4px;
+  padding: 10px; /* Giver lidt indvendig luft i textarea */
+  box-sizing: border-box; /* Sikrer, at padding ikke øger textarea's bredde */
+}
+
+
 .radio-buttons {
   margin-bottom: 20px;
   text-align: center;

@@ -4,6 +4,7 @@ import "./App.css";
 import "./index.css";
 
 function App() {
+  // Existing state variables
   const [rows, setRows] = useState([
     {
       name: "",
@@ -30,6 +31,14 @@ function App() {
   const [office, setOffice] = useState("Glostrup");
   const [weekGoal, setWeekGoal] = useState("");
   const [goal, setGoal] = useState("");
+
+  // New state variables for the questions
+  const [bestSeller, setBestSeller] = useState("");
+  const [worstSeller, setWorstSeller] = useState("");
+  const [goodPractice, setGoodPractice] = useState("");
+  const [improvement, setImprovement] = useState("");
+  const [callingPools, setCallingPools] = useState("");
+  const [leaders, setLeaders] = useState(""); // New state for "Dagens ledere"
 
   const handleAddRow = () => {
     setRows([
@@ -145,6 +154,13 @@ function App() {
           <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;"><strong>${averageSales}</strong></td>
         </tr>
       </table>
+      <br />
+      <p><strong>Bedste sælger:</strong> ${bestSeller}</p>
+      <p><strong>Dårligste sælger:</strong> ${worstSeller}</p>
+      <p><strong>Hvad gjorde vi for at sikre et godt resultat?:</strong> ${goodPractice}</p>
+      <p><strong>Hvad kunne jeg have gjort for at sikre et bedre resultat?:</strong> ${improvement}</p>
+      <p><strong>Hvilke puljer har vi ringet på?:</strong> ${callingPools}</p>
+      <p><strong>Dagens ledere:</strong> ${leaders}</p>
     `;
   };
 
@@ -403,6 +419,59 @@ Ugemål: ${weekGoal}/${goal}
             value={goal}
             onChange={(e) => setGoal(e.target.value)}
             placeholder="Ugemål"
+          />
+        </div>
+      </div>
+
+      {/* New section for the questions */}
+      <div className="question-section spg">
+        <h2>Evaluering:</h2>        
+        <div className="question">
+          <label>Bedste sælger:</label>
+          <textarea
+            value={bestSeller}
+            onChange={(e) => setBestSeller(e.target.value)}
+            placeholder=""
+          />
+        </div>
+        <div className="question">
+          <label>Dårligste sælger:</label>
+          <textarea
+            value={worstSeller}
+            onChange={(e) => setWorstSeller(e.target.value)}
+            placeholder=""
+          />
+        </div>
+        <div className="question">
+          <label>Hvad gjorde vi for at sikre et godt resultat?</label>
+          <textarea
+            value={goodPractice}
+            onChange={(e) => setGoodPractice(e.target.value)}
+            placeholder=""
+          />
+        </div>
+        <div className="question">
+          <label>Hvad kunne jeg have gjort for at sikre et bedre resultat?</label>
+          <textarea
+            value={improvement}
+            onChange={(e) => setImprovement(e.target.value)}
+            placeholder=""
+          />
+        </div>
+        <div className="question">
+          <label>Hvilke puljer har vi ringet på?</label>
+          <textarea
+            value={callingPools}
+            onChange={(e) => setCallingPools(e.target.value)}
+            placeholder=""
+          />
+        </div>
+        <div className="question">
+          <label>Dagens ledere:</label>
+          <textarea
+            value={leaders}
+            onChange={(e) => setLeaders(e.target.value)}
+            placeholder=""
           />
         </div>
       </div>
